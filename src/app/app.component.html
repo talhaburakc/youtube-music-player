@@ -6,27 +6,23 @@
     </mat-form-field>
   </div>
 
-  <div style="padding-top: 100px;">
-    <mat-form-field class="input">
-      <input matInput placeholder="Search" value="Video.." [ngModelOptions]="{standalone: true}" [(ngModel)]="playlistSearch" (keydown)="keyDownFunctionn($event)">
-    </mat-form-field>
-  </div>
-
-  <div class="videos-list" *ngFor="let video of videoList">
-    <mat-card [ngClass]="{'card': true, 'card-clicked': isClickInProgress}" *ngIf="video.id.kind == 'youtube#video'" style="max-width: 30%" (click)="isClickInProgress ? false : onVideoClick(video)">
-      <mat-card-content>
-        <mat-grid-list cols="3" rowHeight="100px">
-          <mat-grid-tile colspan="2">
-            <p>
-              {{video.snippet.title}}
-            </p>
-          </mat-grid-tile>
-          <mat-grid-tile colspan="1">
-            <img [src]="video.snippet.thumbnails.default.url" alt="thumbnail" style="height: 100px; width: auto;">
-          </mat-grid-tile>
-        </mat-grid-list>
-      </mat-card-content>
-    </mat-card>
+  <div class="body">
+    <div class="videos-list" *ngFor="let video of videoList">
+      <mat-card [ngClass]="{'card': true, 'card-clicked': isClickInProgress}" *ngIf="video.id.kind == 'youtube#video'" style="max-width: 30%" (click)="isClickInProgress ? false : onVideoClick(video)">
+        <mat-card-content>
+          <mat-grid-list cols="3" rowHeight="100px">
+            <mat-grid-tile colspan="2">
+              <p>
+                {{video.snippet.title}}
+              </p>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1">
+              <img [src]="video.snippet.thumbnails.default.url" alt="thumbnail" style="height: 100px; width: auto;">
+            </mat-grid-tile>
+          </mat-grid-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 
 <div class="asd">

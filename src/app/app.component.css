@@ -15,7 +15,7 @@
   right: 0;
   left: 0;
   text-align: center;
-  background-color: rgb(205, 249, 255); 
+  background-color: rgb(205, 249, 255);
 }
 
 .audio-buttons {
@@ -29,6 +29,11 @@
 .videos-list {
   margin: auto;
   padding-bottom: 10px;
+}
+
+.body {
+  margin-top: 70px;
+  margin-bottom: 130px;
 }
 
 .mat-slider-vertical {
