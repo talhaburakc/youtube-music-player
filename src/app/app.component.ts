@@ -48,6 +48,9 @@ export class AppComponent {
   }
 
   loadAudio(source, type) {
+    if (this.audio) {
+      this.stop();
+    }
     this.isClickInProgress = true;
     this.spinner.show();
     let videoUrl;
