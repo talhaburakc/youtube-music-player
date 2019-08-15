@@ -8,7 +8,7 @@
 
   <div class="body">
     <div class="videos-list" *ngFor="let video of videoList">
-      <mat-card [ngClass]="'card'" *ngIf="video.id.kind == 'youtube#video'" style="max-width: 30%" (click)="isClickInProgress ? false : onVideoClick(video)">
+      <mat-card [ngClass]="'card'" *ngIf="video.id.kind == 'youtube#video'" style="max-width: 30%" (click)="onVideoClick(video)">
         <mat-card-content>
           <mat-grid-list cols="3" rowHeight="100px">
             <mat-grid-tile colspan="2">
