@@ -1,6 +1,6 @@
 # YoutubeMp3Player
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.1.0.
+You can find the app running at > https://youtube-mp3-player.herokuapp.com
 
 ## Development server
 
