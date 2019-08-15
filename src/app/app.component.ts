@@ -62,6 +62,9 @@ export class AppComponent {
         html5: true,
         volume: volume,
         onload: this.onLoad,
+        onend: () => {
+          this.playing = false;
+        },
         onplay: () => {          
           if (this.timer == null) {
             this.timer = setInterval( this.updateValue, 1000);
