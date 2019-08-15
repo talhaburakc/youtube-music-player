@@ -17,14 +17,9 @@ export class AppComponent {
   watchURL: string = 'https://www.youtube.com/watch?v=';
 
   playing: boolean = false;
-  title = 'youtube-mp3-player';
   url: string;
   audio: Howl;
-  durationValue: number = 0;
-  formattedValue: string = '0';
-  showThumbLabel: boolean = true;
-  showThumbLabelVolume: boolean = true;
-  songDurationFormatted: string = "0:00";
+  currentSeekValue: number = 0;
   songDuration: number;
   sliderDisabled: boolean = true;
   volumeValue: number;
@@ -32,15 +27,14 @@ export class AppComponent {
   videoList: Array<any>;
   playlistVideos: Array<any>;
   playlistAudios: Array<any>;
-  isClickInProgress: boolean = false;
+  isAudioLoaded: boolean = false;
 
   playlistSearch: any;
 
   constructor(private youtubedl: YoutubeDlService, private http: HttpClient, private youtube: YoutubeService, private spinner: NgxSpinnerService) {
     this.onLoad = this.onLoad.bind(this);
     this.updateValue = this.updateValue.bind(this);
-    this.formatLabel = this.formatLabel.bind(this);
-    this.volumeLabel = this.volumeLabel.bind(this);
+
   }
 
   ngOnInit() { // TODO: multiple clicks on same video throws error
@@ -51,7 +45,6 @@ export class AppComponent {
     if (this.audio) {
       this.stop();
     }
-    this.isClickInProgress = true;
     this.spinner.show();
     let videoUrl;
     if (type == 'url') {
@@ -59,25 +52,30 @@ export class AppComponent {
     } else if ( type == 'id') {
       videoUrl = this.watchURL + source;
     }
+    let volume = 1.0;
+    if (this.audio) {
+      volume = this.audio.volume();
+    }
     this.youtubedl.getAudioUrl(videoUrl).then( (data) => {
       this.audio = new Howl({
         src: [data as string],
         html5: true,
-        volume: 1.0,
+        volume: volume,
         onload: this.onLoad,
-        onplay: () => {
-          this.timer = setInterval( this.updateValue, 1000);
+        onplay: () => {          
+          if (this.timer == null) {
+            this.timer = setInterval( this.updateValue, 1000);
+          }
+          this.updateValue();
           this.sliderDisabled = false;
           this.volumeValue = this.audio.volume() * 100;
           this.playing = true;
-        }
+        }        
       });
       this.play();
-      this.isClickInProgress = false;
       this.spinner.hide();
       
     }).catch( (err) => {
-      this.isClickInProgress = false;
       this.spinner.hide();
       console.log('ERR', err.status);
     });
@@ -122,38 +120,29 @@ export class AppComponent {
 
   onVideoClick(video) {
     console.log(video.id.videoId);
+    if (this.audio && this.audio.state() == 'loaded') {
+      this.audio.unload();
+    }
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
     this.loadAudio(video.id.videoId, 'id');
   }
 
-  parseSecondsToMinuteFormat(seconds: number) {
-    let minute = Math.floor(seconds / 60) + '';
-    let second = Math.floor(seconds % 60) + '';
-    if ( seconds % 60 < 10) {
-      second = '0' + second;
-    }
-    return minute + ':' + second;
-  }
-
-  parseMinuteFormatToSeconds(format: string) {
-    console.log('format:', format);
-    let arr = (format.toString()).split(':');
-    console.log('arr:', arr)
-    return (parseInt(arr[0]) * 60) + parseInt(arr[1]);
-  }
-
   updateValue() {
-    this.formattedValue = this.parseSecondsToMinuteFormat( Math.floor(this.audio.seek() as number));
-    this.durationValue = Math.floor(this.audio.seek() as number);
+    this.currentSeekValue = Math.floor(this.audio.seek() as number);
   }
 
   onLoad() {
-    this.songDurationFormatted = this.parseSecondsToMinuteFormat(this.audio.duration());
     this.songDuration = this.audio.duration();
+    this.isAudioLoaded = true;
   }
 
   play() {
     if ( this.audio && !this.audio.playing() ) {
       this.audio.play();
+      this.playing = true;
     }
   }
 
@@ -170,61 +159,13 @@ export class AppComponent {
       clearInterval(this.timer);
       this.timer = null;
       this.sliderDisabled = true;
+      this.isAudioLoaded = false;
     }
-  }
-
-  onReleaseClick() {
-    this.showThumbLabel = false;
-    this.audio.seek(this.durationValue);
-    this.updateValue();
-    if ( this.timer == null) {
-      this.timer = setInterval( this.updateValue, 1000);
-    }
-    
-  }
-
-  onClick() {
-    clearInterval(this.timer);
-    this.timer = null;
-    this.showThumbLabel = true;
-  }
-
-  temp() {
-    console.log('ASDASDASD');
-  }
-  
-  formatLabel(value: number | null) {
-    let number = this.parseSecondsToMinuteFormat(value as number);
-    return number;
-  }
-
-  volumeLabel(value: number | null) {
-    if ( this.audio ) {
-      this.audio.volume(value / 100);
-    }
-    return value;
-  }
-
-  onVolumeReleaseClick() {
-    this.showThumbLabelVolume = false;
-    this.audio.volume(this.volumeValue / 100);
-    this.volumeValue = this.audio.volume() * 100;
-  }
-
-  onVolumeClick() {
-    this.showThumbLabelVolume = true;
-    
   }
 
   keyDownFunction(e) {
     if (e.key == "Enter") {
       this.get();
-    }
-  }
-
-  keyDownFunctionn(e) {
-    if (e.key == "Enter") {
-      this.getPlaylist();
     }
   }
 
@@ -273,5 +214,27 @@ export class AppComponent {
     }, err => {
 
     });
+  }
+
+  onSeekValueChange(value) {
+    this.currentSeekValue = value;
+    this.audio.seek(this.currentSeekValue);
+    this.updateValue();
+    if ( this.timer == null) {
+      this.timer = setInterval( this.updateValue, 1000);
+    }
+  }
+
+  onSeekSlide(value) {
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+  }
+
+  onVolumeValueChange(value) {
+    this.volumeValue = value;
+    this.audio.volume(this.volumeValue / 100);
+    this.volumeValue = this.audio.volume() * 100;
   }
 }

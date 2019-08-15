@@ -1,0 +1,10 @@
+<div class="audio-player">
+    <button class="audio-buttons" mat-raised-button ><fa-icon [icon]="['fas', 'step-backward']"></fa-icon></button>
+    <button *ngIf="!playing" class="audio-buttons" mat-raised-button (click)="play()"><fa-icon [icon]="['fas', 'play']"></fa-icon></button>
+    <button *ngIf="playing" class="audio-buttons" mat-raised-button (click)="pause()"><fa-icon [icon]="['fas', 'pause']"></fa-icon></button>
+    <button class="audio-buttons" mat-raised-button ><fa-icon [icon]="['fas', 'step-forward']"></fa-icon></button>
+
+    <mat-slider class="seek-slider" [disabled]="!audioLoaded" [value]="currentSeekValue" min="0" [max]="songDuration" (change)="onSeekSliderChange($event)" (input)="onSeekSliderSlide($event)" [thumbLabel]="showSeekThumbLabel" [displayWith]="formatSeekLabel"></mat-slider>
+    <span class="song-duration">{{formattedCurrentSeekValue}} / {{songDurationFormatted}}</span>
+    <mat-slider class="volume-slider" [disabled]="!audioLoaded" vertical min="0" max="100" [value]="volumeValue" (change)="onVolumeSliderChange($event)" (input)="onVolumeSliderSlide($event)" [thumbLabel]="showVolumeThumbLabel" [displayWith]="formatVolumeLabel" ></mat-slider>
+</div>
