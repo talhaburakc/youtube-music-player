@@ -89,7 +89,7 @@ export class AppComponent {
     return s.includes('youtube.com/watch');
   }
 
-  get() {
+  getSearchResults() {
     if ( this.isUrl(this.url)) {
       this.loadAudio(this.url, 'url');
       return;
@@ -168,7 +168,7 @@ export class AppComponent {
 
   keyDownFunction(e) {
     if (e.key == "Enter") {
-      this.get();
+      this.getSearchResults();
     }
   }
 

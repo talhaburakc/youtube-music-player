@@ -1,8 +1,8 @@
 .card {
+  width: 40%;
   max-width: 40%;
-  text-align: center;
-  left: 30%;
   background-color: white;
+  border-radius: 0%;
 }
 
 .card-image {
@@ -11,7 +11,8 @@
 }
 
 .videos-list {
-  margin: auto;
+  display: flex;
+  justify-content: center;
   padding-bottom: 10px;
 }
 
@@ -53,14 +54,12 @@
 
 @media screen and (max-width: 630px) {
   .videos-list {
-    margin: auto;
     padding-bottom: 5px;
   }
 
   .card {
-    max-width: 80% !important;
-    left: 6% !important;
-    text-align: center;
+    width: 100%;
+    max-width: 100%;
   }
 }
 
