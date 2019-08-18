@@ -240,4 +240,20 @@ export class AppComponent {
     this.audio.volume(this.volumeValue / 100);
     this.volumeValue = this.audio.volume() * 100;
   }
+
+  nextPage() {
+    this.youtube.getNextSearchResults(this.url).then((data: any) => {
+      this.videoList = data;
+    }, err => {
+      console.log('ERR', err);
+    });
+  }
+
+  prevPage() {
+    this.youtube.getPrevSearchResults(this.url).then((data: any) => {
+      this.videoList = data;
+    }, err => {
+      console.log('ERR', err);
+    });
+  }
 }

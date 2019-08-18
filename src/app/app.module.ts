@@ -18,10 +18,10 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 
-import { faPlay, faStop, faPause, faStepBackward, faStepForward } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faStop, faPause, faStepBackward, faStepForward, faChevronCircleRight, faChevronCircleLeft } from '@fortawesome/free-solid-svg-icons';
 import { ComponentsModule } from './components/components.module';
 
-library.add(faPlay, faStop, faPause, faStepBackward, faStepForward);
+library.add(faPlay, faStop, faPause, faStepBackward, faStepForward, faChevronCircleRight, faChevronCircleLeft);
 
 
 @NgModule({

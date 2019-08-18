@@ -5,10 +5,10 @@
       <input matInput placeholder="Search" value="Video.." [ngModelOptions]="{standalone: true}" [(ngModel)]="url" (keydown)="keyDownFunction($event)">
     </mat-form-field>
   </div>
-
-  <div class="body">
+  
+  <div [ngClass]="{'body': videoList}">
     <div class="videos-list" *ngFor="let video of videoList">
-      <mat-card [ngClass]="'card'" *ngIf="video.id.kind == 'youtube#video'" style="max-width: 30%" (click)="onVideoClick(video)">
+      <mat-card [ngClass]="'card'" *ngIf="video.id.kind == 'youtube#video'" (click)="onVideoClick(video)">
         <mat-card-content>
           <mat-grid-list cols="3" rowHeight="100px">
             <mat-grid-tile colspan="2">
@@ -22,6 +22,10 @@
           </mat-grid-list>
         </mat-card-content>
       </mat-card>
+    </div>
+    <div *ngIf="videoList" class="next-prev-buttons">
+      <button mat-raised-button class="next-prev-button" (click)="prevPage()"><fa-icon [icon]="['fas', 'chevron-circle-left']" size="lg"></fa-icon></button>
+      <button mat-raised-button class="next-prev-button" (click)="nextPage()"><fa-icon [icon]="['fas', 'chevron-circle-right']" size="lg"></fa-icon></button>
     </div>
   </div>
 
