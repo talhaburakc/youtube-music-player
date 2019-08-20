@@ -4,7 +4,7 @@
   right: 0;
   left: 0;
   text-align: center;
-  background-color: rgb(205, 249, 255);
+  background-image: linear-gradient(to right,#ff8a00,#da1b60);
 }
 
 .audio-buttons {
@@ -18,6 +18,20 @@
 .mat-slider-horizontal {
   width: 40%;
 }
+
+.song-duration {
+  color: white;
+}
+
+::ng-deep .mat-accent .mat-slider-thumb {
+  background-color: whitesmoke;
+} 
+::ng-deep .mat-accent .mat-slider-thumb-label {
+  background-color: whitesmoke;
+} 
+::ng-deep .mat-accent .mat-slider-track-fill {
+  background-color: whitesmoke;
+} 
 
 @media screen and (max-width: 630px) {
   

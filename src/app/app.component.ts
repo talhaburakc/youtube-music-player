@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { YoutubeDlService } from './services/youtube-dl/youtube-dl.service';
 import { YoutubeService } from './services/youtube/youtube.service';
 import { Howl, Howler } from 'howler';
@@ -11,7 +11,8 @@ import { NgxSpinnerService } from "ngx-spinner";
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  encapsulation: ViewEncapsulation.None // required to add background color to whole page
 })
 export class AppComponent {
   watchURL: string = 'https://www.youtube.com/watch?v=';

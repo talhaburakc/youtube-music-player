@@ -1,3 +1,7 @@
+body {
+  background-color: whitesmoke !important;
+}
+
 .card {
   width: 40%;
   max-width: 40%;
@@ -26,21 +30,43 @@
   margin-bottom: 130px;
 }
 
-.input-div {
-  background-color: whitesmoke;
+.input-background-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.input-background {
+  background-image: linear-gradient(to right,#ff8a00,#da1b60);
   z-index: 5;
   position: fixed;
-  top: 0; 
-  right: 0;
-  left: 0;
+  top: 10px; 
+  text-align: center;
   height: 60px;
+  width: 50%;
+  border-radius: 100px;
 }
 
 .input {
-  width: 40%;
-  position: absolute;
-  left: 30%;
+  color: white;
+  width: 60%;
 }
+
+::ng-deep .mat-focused .mat-form-field-label {
+  /*change color of label*/
+  color: rgb(202, 202, 202) !important;
+ }
+
+ ::ng-deep.mat-form-field-underline {
+  /*change color of underline*/
+  background-color: white !important;
+} 
+
+::ng-deep.mat-form-field-ripple {
+  /*change color of underline when focused*/
+  background-color: white !important;;
+ }
+
+
 
 .next-prev-buttons {
   display: flex;
@@ -48,13 +74,11 @@
 }
 
 .next-prev-button {
-  margin-left: 0;
-  margin-right: 0;
   font-size: 20px;
   height: 50px;
   width: 50px;
   border-radius: 0%;
-  margin: 5px;
+  margin: 5px !important;
 }
 
 @media screen and (max-width: 630px) {
@@ -66,5 +90,10 @@
     width: 100%;
     max-width: 100%;
   }
+
+  .input-background {
+    width: 80%;
+  }
+
 }
 
