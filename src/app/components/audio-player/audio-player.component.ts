@@ -22,7 +22,6 @@ export class AudioPlayerComponent implements OnInit {
   get songDuration(): number { return this._songDuration; }
   
   @Input() volumeValue;
-  @Input() showThumbLabelVolume: boolean = true;
   @Input() audioLoaded: boolean = true;
   @Input() playing: boolean = false;
 

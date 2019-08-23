@@ -31,6 +31,22 @@
     </div>
   </div>
 
+  <div [ngClass]="{'playlist': true, 'playlist-clicked': isPlaylistClicked}">
+    <button *ngIf="!isPlaylistClicked" (click)="onPlaylistSlideClick()" class="playlist-slide-button"><fa-icon [icon]="['fas', 'angle-double-up']"></fa-icon></button>
+    <button *ngIf="isPlaylistClicked" (click)="onPlaylistSlideClick()" class="playlist-slide-button"><fa-icon [icon]="['fas', 'angle-double-down']"></fa-icon></button>
+    <div [ngClass]="'playlist-content scrollbar'">
+      <mat-list>
+        <mat-list-item> Pepper </mat-list-item>
+        <mat-list-item> Pepper </mat-list-item>
+        <mat-list-item> Pepper </mat-list-item>
+        <mat-list-item> Pepper </mat-list-item>
+        <mat-list-item> Pepper </mat-list-item>
+        <mat-list-item> Pepper </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+
+
 <div> 
   <app-audio-player (onPlay)="play()" (onPause)="pause()" [playing]="playing"
                     [currentSeekValue]="currentSeekValue" (onSeekValueChange)="onSeekValueChange($event)" (onSeekSlide)="onSeekSlide($event)" 

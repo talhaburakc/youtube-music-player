@@ -17,11 +17,12 @@ import { MatCardModule } from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import {MatListModule} from '@angular/material/list';
 
-import { faPlay, faStop, faPause, faStepBackward, faStepForward, faChevronCircleRight, faChevronCircleLeft } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faStop, faPause, faStepBackward, faStepForward, faChevronCircleRight, faChevronCircleLeft, faAngleDoubleUp, faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons';
 import { ComponentsModule } from './components/components.module';
 
-library.add(faPlay, faStop, faPause, faStepBackward, faStepForward, faChevronCircleRight, faChevronCircleLeft);
+library.add(faPlay, faStop, faPause, faStepBackward, faStepForward, faChevronCircleRight, faChevronCircleLeft, faAngleDoubleUp, faAngleDoubleDown);
 
 
 @NgModule({
@@ -41,7 +42,8 @@ library.add(faPlay, faStop, faPause, faStepBackward, faStepForward, faChevronCir
     MatGridListModule,
     MatInputModule,
     MatButtonModule,
-    ComponentsModule
+    ComponentsModule,
+    MatListModule
   ],
   providers: [
     YoutubeDlService

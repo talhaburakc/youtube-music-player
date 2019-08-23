@@ -5,6 +5,7 @@
   left: 0;
   text-align: center;
   background-image: linear-gradient(to right,#ff8a00,#da1b60);
+  height: 130px;
 }
 
 .audio-buttons {
@@ -23,6 +24,10 @@
   color: white;
 }
 
+::ng-deep .mat-accent .mat-slider-thumb-label-text {
+  color: black;
+}
+
 ::ng-deep .mat-accent .mat-slider-thumb {
   background-color: whitesmoke;
 } 
@@ -38,6 +43,7 @@
   .audio-player {
     display: grid;
     grid-gap: 5px;
+    height: 115px;
   }
 
   .audio-buttons {

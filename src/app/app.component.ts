@@ -29,6 +29,7 @@ export class AppComponent {
   playlistVideos: Array<any>;
   playlistAudios: Array<any>;
   isAudioLoaded: boolean = false;
+  isPlaylistClicked: boolean = false;
 
   playlistSearch: any;
 
@@ -256,5 +257,9 @@ export class AppComponent {
     }, err => {
       console.log('ERR', err);
     });
+  }
+
+  onPlaylistSlideClick() {
+    this.isPlaylistClicked = !this.isPlaylistClicked;
   }
 }

@@ -51,6 +51,63 @@ body {
   width: 60%;
 }
 
+.playlist {
+  position: fixed;
+  bottom: 130px;
+  height: 20px;
+  width: 80%;
+  left: 10%;
+  background-color: white;
+  display: grid;
+  grid-template-rows: 20px auto;
+  -webkit-transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  -o-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+
+.playlist-clicked {
+  height: 225px;
+}
+
+.playlist-slide-button {
+  height: 20px;
+  width: 100%;
+  grid-row: 1/2;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+}
+
+.playlist-content {
+  overflow-y: auto;
+}
+
+.scrollbar::-webkit-scrollbar-track
+{
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+.scrollbar::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+.scrollbar::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #D62929;
+}
+
 ::ng-deep .mat-focused .mat-form-field-label {
   /*change color of label*/
   color: rgb(202, 202, 202) !important;
@@ -95,5 +152,16 @@ body {
     width: 80%;
   }
 
+  .playlist {
+    position: fixed;
+    bottom: 115px;
+    height: 20px;
+    width: 80%;
+    left: 10%;
+  }
+
+  .playlist-clicked {
+    height: 30%;
+  }
 }
 
