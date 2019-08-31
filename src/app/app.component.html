@@ -1,5 +1,6 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
+<div class="outer-border">
   <div class="input-background-wrapper">
     <div class="input-background">
       <mat-form-field class="input">
@@ -8,9 +9,9 @@
     </div>
   </div>
 
-  <div [ngClass]="{'body': videoList}">
+  <div class="body">
     <div class="videos-list">
-      <app-card *ngFor="let video of videoList" [video]="video" (onVideoClick)="onVideoClick(video)" (onPlaylistClick)="onPlaylistClick(video)"></app-card>
+      <app-card class="card" *ngFor="let video of videoList" [video]="video" (onVideoClick)="onVideoClick(video)" (onPlaylistClick)="onPlaylistClick(video)"></app-card>
     </div>
     <div *ngIf="videoList" class="next-prev-buttons">
       <button mat-raised-button class="next-prev-button" (click)="prevPage()"><fa-icon [icon]="['fas', 'chevron-circle-left']" size="lg"></fa-icon></button>
@@ -34,18 +35,20 @@
   </div>
 
 
-<div> 
-  <app-audio-player (onPlay)="play()" (onPause)="pause()" [playing]="playing" (onNext)="play('next')" (onPrev)="play('prev')"
-                    [currentSeekValue]="currentSeekValue" (onSeekValueChange)="onSeekValueChange($event)" (onSeekSlide)="onSeekSlide($event)" 
-                    [volumeValue]="volumeValue" (onVolumeValueChange)="onVolumeValueChange($event)" (onVolumeSlide)="onVolumeValueChange($event)"
-                    [songDuration]="songDuration" [audioLoaded]="isAudioLoaded"
-                    [prevButtonDisabled]="!hasInLine('prev')" [nextButtonDisabled]="!hasInLine('next')" [playButtonDisabled]="!audio">
-  </app-audio-player>
-</div>
+  <div> 
+    <app-audio-player class="audio-player"
+                      (onPlay)="play()" (onPause)="pause()" [playing]="playing" (onNext)="play('next')" (onPrev)="play('prev')"
+                      [currentSeekValue]="currentSeekValue" (onSeekValueChange)="onSeekValueChange($event)" (onSeekSlide)="onSeekSlide($event)" 
+                      [volumeValue]="volumeValue" (onVolumeValueChange)="onVolumeValueChange($event)" (onVolumeSlide)="onVolumeValueChange($event)"
+                      [songDuration]="songDuration" [audioLoaded]="isAudioLoaded"
+                      [prevButtonDisabled]="!hasInLine('prev')" [nextButtonDisabled]="!hasInLine('next')" [playButtonDisabled]="!audio">
+    </app-audio-player>
+  </div>
 
-<ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium">
-  <p style="color: white">Loading Song...</p>
-</ngx-spinner>
+  <ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium">
+    <p style="color: white">Loading Song...</p>
+  </ngx-spinner>
+</div>
 
 <router-outlet></router-outlet>
 
