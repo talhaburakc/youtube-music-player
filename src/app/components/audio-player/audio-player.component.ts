@@ -24,9 +24,14 @@ export class AudioPlayerComponent implements OnInit {
   @Input() volumeValue;
   @Input() audioLoaded: boolean = true;
   @Input() playing: boolean = false;
+  @Input() playButtonDisabled: boolean = false;
+  @Input() prevButtonDisabled: boolean = false;
+  @Input() nextButtonDisabled: boolean = false;
 
   @Output() onPlay = new EventEmitter();
   @Output() onPause = new EventEmitter();
+  @Output() onNext = new EventEmitter();
+  @Output() onPrev = new EventEmitter();
   @Output() onSeekValueChange = new EventEmitter();
   @Output() onSeekSlide = new EventEmitter();
   @Output() onVolumeValueChange = new EventEmitter();
@@ -58,6 +63,14 @@ export class AudioPlayerComponent implements OnInit {
       this.onPause.emit();
       this.playing = false;
     }
+  }
+
+  next() {
+    this.onNext.emit();
+  }
+
+  prev() {
+    this.onPrev.emit();
   }
 
   parseSecondsToMinuteFormat(seconds: number) {

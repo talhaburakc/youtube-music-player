@@ -2,32 +2,16 @@ body {
   background-color: whitesmoke !important;
 }
 
-.card {
-  width: 40%;
-  max-width: 40%;
-  background-color: white;
-  border-radius: 0%;
-}
-
-.card:hover {
-  box-shadow: -1px 1px 6px 0px rgba(0,0,0,0.66);
-  background-color: rgb(248, 248, 248)
-}
-
-.card-image {
-  height: auto;
-  width: auto;
-}
-
-.videos-list {
-  display: flex;
-  justify-content: center;
-  padding-bottom: 10px;
-}
-
 .body {
   margin-top: 70px;
   margin-bottom: 130px;
+}
+
+.videos-list {
+  position: relative;
+  margin: auto;
+  background-color: white;
+  width: 50%;
 }
 
 .input-background-wrapper {
@@ -74,12 +58,15 @@ body {
   height: 20px;
   width: 100%;
   grid-row: 1/2;
+}
+
+.transparent-button {
   background-color: Transparent;
-  background-repeat:no-repeat;
+  background-repeat: no-repeat;
   border: none;
-  cursor:pointer;
+  cursor: pointer;
   overflow: hidden;
-  outline:none;
+  outline: none;
 }
 
 .playlist-content {
@@ -88,6 +75,32 @@ body {
 
 .playlist-element {
   cursor: pointer;
+}
+
+.playlist-element:hover {
+  background-color: lightgray;
+}
+
+.playlist-load-more-button {
+  width: 100%;
+}
+
+.currently-playing-icon {
+  color: red;
+  -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: 0.8s; /* Safari 4.0 - 8.0 */
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: alternate;
+  animation-name: example;
+  animation-duration: 0.8s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-timing-function: ease-in;
+}
+
+@keyframes example {
+  from {color: rgb(255, 121, 121);}
+  to {color: rgb(255, 0, 0);}
 }
 
 .scrollbar::-webkit-scrollbar-track
@@ -140,16 +153,12 @@ body {
   width: 50px;
   border-radius: 0%;
   margin: 5px !important;
+  margin-bottom: 25px !important;
 }
 
 @media screen and (max-width: 630px) {
   .videos-list {
-    padding-bottom: 5px;
-  }
-
-  .card {
-    width: 100%;
-    max-width: 100%;
+    width: 90%;
   }
 
   .input-background {

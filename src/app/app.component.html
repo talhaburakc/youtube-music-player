@@ -9,21 +9,8 @@
   </div>
 
   <div [ngClass]="{'body': videoList}">
-    <div class="videos-list" *ngFor="let video of videoList">
-      <mat-card [ngClass]="'card'" *ngIf="video.id.kind == 'youtube#video'" (click)="onVideoClick(video)">
-        <mat-card-content>
-          <mat-grid-list cols="3" rowHeight="100px">
-            <mat-grid-tile colspan="2">
-              <p>
-                {{video.snippet.title}}
-              </p>
-            </mat-grid-tile>
-            <mat-grid-tile colspan="1">
-              <img class="card-image" [src]="video.snippet.thumbnails.default.url" alt="thumbnail">
-            </mat-grid-tile>
-          </mat-grid-list>
-        </mat-card-content>
-      </mat-card>
+    <div class="videos-list">
+      <app-card *ngFor="let video of videoList" [video]="video" (onVideoClick)="onVideoClick(video)" (onPlaylistClick)="onPlaylistClick(video)"></app-card>
     </div>
     <div *ngIf="videoList" class="next-prev-buttons">
       <button mat-raised-button class="next-prev-button" (click)="prevPage()"><fa-icon [icon]="['fas', 'chevron-circle-left']" size="lg"></fa-icon></button>
@@ -32,21 +19,27 @@
   </div>
 
   <div [ngClass]="{'playlist': true, 'playlist-clicked': isPlaylistClicked}">
-    <button *ngIf="!isPlaylistClicked" (click)="onPlaylistSlideClick()" class="playlist-slide-button"><fa-icon [icon]="['fas', 'angle-double-up']"></fa-icon></button>
-    <button *ngIf="isPlaylistClicked" (click)="onPlaylistSlideClick()" class="playlist-slide-button"><fa-icon [icon]="['fas', 'angle-double-down']"></fa-icon></button>
+    <button *ngIf="!isPlaylistClicked" (click)="onPlaylistSlideClick()" class="playlist-slide-button transparent-button"><fa-icon [icon]="['fas', 'angle-double-up']"></fa-icon></button>
+    <button *ngIf="isPlaylistClicked" (click)="onPlaylistSlideClick()" class="playlist-slide-button transparent-button"><fa-icon [icon]="['fas', 'angle-double-down']"></fa-icon></button>
     <div [ngClass]="'playlist-content scrollbar'">
       <mat-list>
-        <mat-list-item class="playlist-element" *ngFor="let element of playlist" (click)="playFromPlaylist(element)"> {{element.snippet.title}} </mat-list-item>
+        <mat-list-item class="playlist-element" *ngFor="let element of playlist; index as i" (click)="onPlaylistElementClick(element)">
+          {{i + 1}} - {{element.snippet.title}} &nbsp; <fa-icon *ngIf="i == currentPlayingIndex" class="currently-playing-icon" [icon]="['fas', 'circle']"></fa-icon>
+        </mat-list-item>
+        <div style="position: relative; display: block; width: 100%; height: 20px;">
+          <button *ngIf="playlist" class="playlist-load-more-button transparent-button" (click)="PlaylistLoadMore()"><fa-icon [icon]="['fas', 'plus']"></fa-icon></button>
+        </div>
       </mat-list>
     </div>
   </div>
 
 
 <div> 
-  <app-audio-player (onPlay)="play()" (onPause)="pause()" [playing]="playing"
+  <app-audio-player (onPlay)="play()" (onPause)="pause()" [playing]="playing" (onNext)="play('next')" (onPrev)="play('prev')"
                     [currentSeekValue]="currentSeekValue" (onSeekValueChange)="onSeekValueChange($event)" (onSeekSlide)="onSeekSlide($event)" 
                     [volumeValue]="volumeValue" (onVolumeValueChange)="onVolumeValueChange($event)" (onVolumeSlide)="onVolumeValueChange($event)"
-                    [songDuration]="songDuration" [audioLoaded]="isAudioLoaded">
+                    [songDuration]="songDuration" [audioLoaded]="isAudioLoaded"
+                    [prevButtonDisabled]="!hasInLine('prev')" [nextButtonDisabled]="!hasInLine('next')" [playButtonDisabled]="!audio">
   </app-audio-player>
 </div>
 
@@ -55,3 +48,19 @@
 </ngx-spinner>
 
 <router-outlet></router-outlet>
+
+<!--
+<mat-card *ngFor="let video of videoList" [ngClass]="'card'" (click)="video.id.kind == 'youtube#video' ? onVideoClick(video) : onPlaylistClick(video)">
+    <mat-card-content>
+      <mat-grid-list cols="3" rowHeight="100px">
+        <mat-grid-tile colspan="2">
+          <p>
+            {{video.snippet.title}}
+          </p>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="1">
+          <img class="card-image" [src]="video.snippet.thumbnails.default.url" alt="thumbnail">
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card-content>
+  </mat-card>-->

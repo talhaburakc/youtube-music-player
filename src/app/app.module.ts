@@ -7,6 +7,7 @@ import { YoutubeDlService} from './services/youtube-dl/youtube-dl.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { enableProdMode } from '@angular/core';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -19,11 +20,11 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
 
-import { faPlay, faStop, faPause, faStepBackward, faStepForward, faChevronCircleRight, faChevronCircleLeft, faAngleDoubleUp, faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faStop, faPause, faStepBackward, faStepForward, faChevronCircleRight, faChevronCircleLeft, faAngleDoubleUp, faAngleDoubleDown, faCircle, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { ComponentsModule } from './components/components.module';
 
-library.add(faPlay, faStop, faPause, faStepBackward, faStepForward, faChevronCircleRight, faChevronCircleLeft, faAngleDoubleUp, faAngleDoubleDown);
-
+library.add(faPlay, faStop, faPause, faStepBackward, faStepForward, faChevronCircleRight, faChevronCircleLeft, faAngleDoubleUp, faAngleDoubleDown, faCircle, faPlus);
+enableProdMode();
 
 @NgModule({
   declarations: [

@@ -1,0 +1,14 @@
+<mat-card class="card" (click)="video.id.kind == 'youtube#video' ? videoClick(video) : playlistClick(video)">
+    <mat-card-content>
+        <mat-grid-list cols="3" rowHeight="100px">
+            <mat-grid-tile colspan="2">
+                <p>
+                {{video.snippet.title}}
+                </p>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1">
+                <img class="card-image" [src]="video.snippet.thumbnails.default.url" alt="thumbnail">
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-card-content>
+</mat-card>

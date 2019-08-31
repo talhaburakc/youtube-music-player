@@ -12,6 +12,10 @@
   margin: 10px;
 }
 
+.button-disabled {
+  background-color: lightgray !important;
+}
+
 .mat-slider-vertical {
   width: 20px;
 }

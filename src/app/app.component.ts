@@ -30,6 +30,7 @@ export class AppComponent {
   isPlaylistClicked: boolean = false;
 
   playlist: Array<any>;
+  currentPlayingIndex: number;
 
   constructor(private youtubedl: YoutubeDlService, private youtube: YoutubeService, private spinner: NgxSpinnerService) {
     this.onLoad = this.onLoad.bind(this);
@@ -39,10 +40,6 @@ export class AppComponent {
   ngOnInit() { }
 
   loadAudio(source, type) {
-    if (this.audio) {
-      this.stop();
-    }
-    this.spinner.show();
     let videoUrl;
     let videoId;
     if (type == 'url') {
@@ -59,7 +56,7 @@ export class AppComponent {
     this.youtube.getRelatedToVideo(videoId).then((data: any) => {
       console.log('related videos:', data);
     });
-    this.youtubedl.getAudioUrl(videoUrl).then( (data) => {
+    return this.youtubedl.getAudioUrl(videoUrl).then( (data) => {
       this.audio = new Howl({
         src: [data as string],
         html5: true,
@@ -67,9 +64,7 @@ export class AppComponent {
         onload: this.onLoad,
         onend: () => {
           this.playing = false;
-          if (this.hasNextInLine()) {
-            this.playNextInLine();
-          }
+          this.play('next');          
         },
         onplay: () => {          
           if (this.timer == null) {
@@ -80,23 +75,22 @@ export class AppComponent {
           this.volumeValue = this.audio.volume() * 100;
           this.playing = true;
         }        
-      });
-      this.play();
-      this.spinner.hide();
-      
+      });         
     }).catch( (err) => {
-      this.spinner.hide();
       console.log('ERR', err.status);
     });
 
   }
-  
-  hasNextInLine() {
-    return false;
-  }
 
-  playNextInLine() {
-
+  hasInLine(direction: string) {
+    if (this.currentPlayingIndex === undefined) { 
+      return false;
+    }
+    if (direction == 'next') {
+      return this.playlist.length > this.currentPlayingIndex + 1;
+    } else {
+      return this.currentPlayingIndex > 0;
+    }
   }
 
   getVideoIdFromUrl(url: string) {
@@ -140,7 +134,20 @@ export class AppComponent {
       clearInterval(this.timer);
       this.timer = null;
     }
-    this.loadAudio(video.id.videoId, 'id');
+    if (this.audio) {
+      this.stop();
+    }
+    this.spinner.show();
+    this.loadAudio(video.id.videoId, 'id').then(() => {
+      this.play();
+      this.spinner.hide();
+    });
+  }
+
+  onPlaylistClick(playlist) {
+    console.log('asd', playlist);
+    this.getPlaylist(playlist.id.playlistId);
+    this.isPlaylistClicked = true;
   }
 
   updateValue() {
@@ -152,11 +159,36 @@ export class AppComponent {
     this.isAudioLoaded = true;
   }
 
-  play() {
-    if ( this.audio && !this.audio.playing() ) {
+  play(direction?: string) {
+    // if direction is not set and audio is not set
+    if ( !direction && this.audio && !this.audio.playing() ) {
       this.audio.play();
       this.playing = true;
+      return;
     }
+    // if direction is next and has no next in line
+    if (direction == 'next' && !this.hasInLine('next')) {
+      return;
+    } // vice versa
+    if (direction == 'prev' && !this.hasInLine('prev')) {
+      return;
+    }
+
+    if (this.audio) {
+      this.stop();
+    }
+    let nextIndex;
+    if (direction == 'next') {
+      nextIndex = this.currentPlayingIndex + 1;
+    } else {
+      nextIndex = this.currentPlayingIndex - 1;
+    }
+    this.spinner.show();
+    this.loadAudio( this.playlist[nextIndex].snippet.resourceId.videoId ,'id').then(() => {
+      this.currentPlayingIndex = nextIndex;
+      this.play();
+      this.spinner.hide();
+    });
   }
 
   pause() {
@@ -182,18 +214,25 @@ export class AppComponent {
         this.getPlaylist();
         this.isPlaylistClicked = true;
       } else if ( this.isUrl(this.search)) {
-        this.loadAudio(this.search, 'url');
+        if (this.audio) {
+          this.stop();
+        }
+        this.spinner.show();
+        this.loadAudio(this.search, 'url').then(() => {
+          this.play();
+          this.spinner.hide();
+        });        
       } else {
         this.getSearchResults();
       }
     }
   }
 
-  getPlaylist() {
-    if (!this.isPlaylistUrl(this.search)) {
+  getPlaylist(id?: string) {
+    if (!this.isPlaylistUrl(this.search) && !id) {
       return;
     }
-    let playlistId = this.getPlaylistIdFromUrl(this.search);
+    let playlistId = id || this.getPlaylistIdFromUrl(this.search);
     console.log(playlistId);
     this.youtube.getPlaylistVideos(playlistId).then((data: any) => {
       console.log(data);
@@ -201,11 +240,19 @@ export class AppComponent {
     });
   }
 
-  playFromPlaylist(s) {
-    console.log(s);
-    console.log(s.snippet.resourceId.videoId);
+  onPlaylistElementClick(s) {
+    console.log('element:', s);
+    console.log('playlist:', this.playlist);
 
-    this.loadAudio(s.snippet.resourceId.videoId, 'id');
+    if (this.audio) {
+      this.stop();
+    }
+    this.spinner.show();
+    this.loadAudio(s.snippet.resourceId.videoId, 'id').then(() => {
+      this.currentPlayingIndex = this.playlist.indexOf(s);
+      this.play();
+      this.spinner.hide();
+    });
   }
 
   onSeekValueChange(value) {
@@ -231,7 +278,7 @@ export class AppComponent {
   }
 
   nextPage() {
-    this.youtube.getNextSearchResults(this.search).then((data: any) => {
+    this.youtube.getNextSearchResults().then((data: any) => {
       this.videoList = data;
     }, err => {
       console.log('ERR', err);
@@ -239,7 +286,7 @@ export class AppComponent {
   }
 
   prevPage() {
-    this.youtube.getPrevSearchResults(this.search).then((data: any) => {
+    this.youtube.getPrevSearchResults().then((data: any) => {
       this.videoList = data;
     }, err => {
       console.log('ERR', err);
@@ -248,5 +295,14 @@ export class AppComponent {
 
   onPlaylistSlideClick() {
     this.isPlaylistClicked = !this.isPlaylistClicked;
+  }
+
+  PlaylistLoadMore() {
+    this.youtube.getNextPlaylistVideos().then((data: any) => {
+      this.playlist = this.playlist.concat(data);
+      console.log('data', data);
+    }, err => {
+      console.log('ERR', err);
+    });
   }
 }

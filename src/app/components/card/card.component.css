@@ -1,0 +1,18 @@
+.card {
+    width: 95%;
+    max-width: 95%;
+    background-color: white;
+    border-radius: 0 !important;
+    margin-bottom: 5px;
+    box-shadow: none !important;
+}
+
+.card:hover {
+    box-shadow: -1px 1px 6px 0px rgba(0,0,0,0.66) !important;
+    background-color: rgb(248, 248, 248)
+}
+
+.card-image {
+    height: auto;
+    width: auto;
+}
