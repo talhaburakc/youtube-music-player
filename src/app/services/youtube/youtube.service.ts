@@ -11,6 +11,7 @@ export class YoutubeService {
   private readonly API_KEY = environment.API_KEY;
   regionCode = 'US';
   maxResults = 25;
+  searchTypes = "playlist, video";
 
   nextPageToken: string = null;
   prevPageToken: string = null;
@@ -31,7 +32,7 @@ export class YoutubeService {
     };
     httpOptions['observe'] = 'response';
     return new Promise((resolve, reject) => {
-      this.http.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video%2C%20playlist&regionCode=${this.regionCode}&maxResults=${this.maxResults}&q=${search}&key=${this.API_KEY}`, httpOptions).subscribe( (res: Response) => {
+      this.http.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&regionCode=${this.regionCode}&type=${this.searchTypes}&maxResults=${this.maxResults}&q=${search}&key=${this.API_KEY}`, httpOptions).subscribe( (res: Response) => {
         if (res.ok) {
           resolve(res.body['items']);
           this.prevPageToken = res.body['prevPageToken'] || null;
@@ -51,7 +52,6 @@ export class YoutubeService {
     if (!this.nextPageToken) {
       return Promise.reject(new Error('Token not Available'));
     }
-    this.nextPageToken = null; //asdasd
     const httpOptions = {
       headers: new HttpHeaders({
       Accept: 'application/json'
@@ -59,7 +59,7 @@ export class YoutubeService {
     };
     httpOptions['observe'] = 'response';
     return new Promise((resolve, reject) => {
-      this.http.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&pageToken=${this.nextPageToken}&regionCode=${this.regionCode}&q=${this.search}&maxResults=${this.maxResults}&key=${this.API_KEY}`, httpOptions).subscribe( (res: Response) => {
+      this.http.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&pageToken=${this.nextPageToken}&type=${this.searchTypes}&regionCode=${this.regionCode}&q=${this.search}&maxResults=${this.maxResults}&key=${this.API_KEY}`, httpOptions).subscribe( (res: Response) => {
         if (res.ok) {
           resolve(res.body['items']);
           this.prevPageToken = res.body['prevPageToken'] || null;
@@ -69,8 +69,6 @@ export class YoutubeService {
           this.nextPageToken = null;
           reject(res);
         }
-      }, err => {
-        console.log('asdASDASDASDASD', err);
       });
     });
   }
@@ -87,7 +85,7 @@ export class YoutubeService {
     };
     httpOptions['observe'] = 'response';
     return new Promise((resolve, reject) => {
-      this.http.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&pageToken=${this.prevPageToken}&regionCode=${this.regionCode}&q=${this.search}&maxResults=${this.maxResults}&key=${this.API_KEY}`, httpOptions).subscribe( (res: Response) => {
+      this.http.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&pageToken=${this.prevPageToken}&type=${this.searchTypes}&regionCode=${this.regionCode}&q=${this.search}&maxResults=${this.maxResults}&key=${this.API_KEY}`, httpOptions).subscribe( (res: Response) => {
         if (res.ok) {
           resolve(res.body['items']);
           this.prevPageToken = res.body['prevPageToken'] || null;
