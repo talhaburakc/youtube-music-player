@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "youtube-mp3-player": {
+    "youtube-music-player": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/youtube-mp3-player",
+            "outputPath": "dist/youtube-music-player",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -59,18 +59,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "youtube-mp3-player:build"
+            "browserTarget": "youtube-music-player:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "youtube-mp3-player:build:production"
+              "browserTarget": "youtube-music-player:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "youtube-mp3-player:build"
+            "browserTarget": "youtube-music-player:build"
           }
         },
         "test": {
@@ -108,16 +108,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "youtube-mp3-player:serve"
+            "devServerTarget": "youtube-music-player:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "youtube-mp3-player:serve:production"
+              "devServerTarget": "youtube-music-player:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "youtube-mp3-player"
+  "defaultProject": "youtube-music-player"
 }
