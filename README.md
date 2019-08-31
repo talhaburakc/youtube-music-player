@@ -1,6 +1,6 @@
-# YoutubeMp3Player
+# YoutubeMusicPlayer
 
-You can find the app running at > https://youtube-music-player.herokuapp.com
+You can find the app running at https://youtube-music-player.herokuapp.com
 
 ## Development server
 
