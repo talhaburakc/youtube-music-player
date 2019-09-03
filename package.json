@@ -30,6 +30,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.21",
     "@fortawesome/free-solid-svg-icons": "^5.10.1",
     "@types/howler": "^2.1.1",
+    "angularx-social-login": "^1.2.7",
     "express": "^4.17.1",
     "hammerjs": "^2.0.8",
     "howler": "^2.1.2",

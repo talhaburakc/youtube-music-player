@@ -22,15 +22,20 @@ export class YoutubeService {
   playlistId: any;
   search: any;
 
+  authToken: any;
+
   constructor(private http: HttpClient) { }
 
   getSearchResults(search: string) {
     const httpOptions = {
       headers: new HttpHeaders({
-      Accept: 'application/json'
+        Accept: 'application/json'
      })
     };
     httpOptions['observe'] = 'response';
+    if (this.authToken) {
+      httpOptions.headers = httpOptions.headers.append('Authorization', `Bearer ${this.authToken}`);
+    }
     return new Promise((resolve, reject) => {
       this.http.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&regionCode=${this.regionCode}&type=${this.searchTypes}&maxResults=${this.maxResults}&q=${search}&key=${this.API_KEY}`, httpOptions).subscribe( (res: Response) => {
         if (res.ok) {
@@ -54,10 +59,13 @@ export class YoutubeService {
     }
     const httpOptions = {
       headers: new HttpHeaders({
-      Accept: 'application/json'
+        Accept: 'application/json'
      })
     };
     httpOptions['observe'] = 'response';
+    if (this.authToken) {
+      httpOptions.headers = httpOptions.headers.append('Authorization', `Bearer ${this.authToken}`);
+    }
     return new Promise((resolve, reject) => {
       this.http.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&pageToken=${this.nextPageToken}&type=${this.searchTypes}&regionCode=${this.regionCode}&q=${this.search}&maxResults=${this.maxResults}&key=${this.API_KEY}`, httpOptions).subscribe( (res: Response) => {
         if (res.ok) {
@@ -80,10 +88,13 @@ export class YoutubeService {
     
     const httpOptions = {
       headers: new HttpHeaders({
-      Accept: 'application/json'
+        Accept: 'application/json'
      })
     };
     httpOptions['observe'] = 'response';
+    if (this.authToken) {
+      httpOptions.headers = httpOptions.headers.append('Authorization', `Bearer ${this.authToken}`);
+    }
     return new Promise((resolve, reject) => {
       this.http.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&pageToken=${this.prevPageToken}&type=${this.searchTypes}&regionCode=${this.regionCode}&q=${this.search}&maxResults=${this.maxResults}&key=${this.API_KEY}`, httpOptions).subscribe( (res: Response) => {
         if (res.ok) {
@@ -103,10 +114,13 @@ export class YoutubeService {
     let noOfVideos = 10;
     const httpOptions = {
       headers: new HttpHeaders({
-      Accept: 'application/json'
+        Accept: 'application/json'
      })
     };
     httpOptions['observe'] = 'response';
+    if (this.authToken) {
+      httpOptions.headers = httpOptions.headers.append('Authorization', `Bearer ${this.authToken}`);
+    }
 
     return new Promise((resolve, reject) => {
       this.http.get(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=${noOfVideos}&playlistId=${playlistId}&key=${this.API_KEY}`, httpOptions).subscribe( (res: Response) => {
@@ -133,10 +147,13 @@ export class YoutubeService {
     let noOfVideos = 10;
     const httpOptions = {
       headers: new HttpHeaders({
-      Accept: 'application/json'
+        Accept: 'application/json'
      })
     };
     httpOptions['observe'] = 'response';
+    if (this.authToken) {
+      httpOptions.headers = httpOptions.headers.append('Authorization', `Bearer ${this.authToken}`);
+    }
 
     return new Promise((resolve, reject) => {
       this.http.get(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=${noOfVideos}&playlistId=${this.playlistId}&pageToken=${this.nextPageTokenPlaylist}&key=${this.API_KEY}`, httpOptions).subscribe( (res: Response) => {
@@ -161,10 +178,13 @@ export class YoutubeService {
     let noOfVideos = 10;
     const httpOptions = {
       headers: new HttpHeaders({
-      Accept: 'application/json'
+        Accept: 'application/json'
      })
     };
     httpOptions['observe'] = 'response';
+    if (this.authToken) {
+      httpOptions.headers = httpOptions.headers.append('Authorization', `Bearer ${this.authToken}`);
+    }
 
     return new Promise((resolve, reject) => {
       this.http.get(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=${noOfVideos}&playlistId=${this.playlistId}&pageToken=${this.prevPageTokenPlaylist}&key=${this.API_KEY}`, httpOptions).subscribe( (res: Response) => {
@@ -184,10 +204,13 @@ export class YoutubeService {
   getRelatedToVideo(videoId: string) {
     const httpOptions = {
       headers: new HttpHeaders({
-      Accept: 'application/json'
+        Accept: 'application/json'
      })
     };
     httpOptions['observe'] = 'response';
+    if (this.authToken) {
+      httpOptions.headers = httpOptions.headers.append('Authorization', `Bearer ${this.authToken}`);
+    }
 
     return new Promise((resolve, reject) => {
       this.http.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${videoId}&type=video&key=${this.API_KEY}`, httpOptions).subscribe( (res: Response) => {
@@ -198,5 +221,9 @@ export class YoutubeService {
       }
       });
     });
+  }
+
+  setAuthToken(token: any) {
+    this.authToken = token;
   }
 }

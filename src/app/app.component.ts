@@ -1,12 +1,12 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { YoutubeDlService } from './services/youtube-dl/youtube-dl.service';
 import { YoutubeService } from './services/youtube/youtube.service';
+import { GoogleAuthService } from './services/google-auth/google-auth.service';
 import { Howl, Howler } from 'howler';
 import { NumberValueAccessor } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { NgxSpinnerService } from "ngx-spinner";
-
 
 @Component({
   selector: 'app-root',
@@ -28,16 +28,22 @@ export class AppComponent {
   videoList: Array<any>;
   isAudioLoaded: boolean = false;
   isPlaylistClicked: boolean = false;
+  isLoggedIn: boolean;
 
   playlist: Array<any>;
   currentPlayingIndex: number;
 
-  constructor(private youtubedl: YoutubeDlService, private youtube: YoutubeService, private spinner: NgxSpinnerService) {
+  constructor(private youtubedl: YoutubeDlService, private youtube: YoutubeService, private spinner: NgxSpinnerService, private auth: GoogleAuthService) {
     this.onLoad = this.onLoad.bind(this);
     this.updateValue = this.updateValue.bind(this);
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.auth.loginState.subscribe((isLoggedIn) => {
+      console.log('isLoggedIn', isLoggedIn);
+      this.isLoggedIn = isLoggedIn;
+    });
+  }
 
   loadAudio(source, type) {
     let videoUrl;
@@ -305,4 +311,15 @@ export class AppComponent {
       console.log('ERR', err);
     });
   }
+
+  signIn() {
+    this.auth.signIn().then((data) => {
+      this.youtube.setAuthToken(this.auth.getAuthToken());
+    });
+  }
+
+  signOut() {
+    this.auth.signOut();
+  }
+
 }

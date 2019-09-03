@@ -12,6 +12,9 @@ import { enableProdMode } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 
+import { SocialLoginModule, AuthServiceConfig, LoginOpt } from "angularx-social-login";
+import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatCardModule } from '@angular/material/card';
@@ -22,9 +25,24 @@ import {MatListModule} from '@angular/material/list';
 
 import { faPlay, faStop, faPause, faStepBackward, faStepForward, faChevronCircleRight, faChevronCircleLeft, faAngleDoubleUp, faAngleDoubleDown, faCircle, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { ComponentsModule } from './components/components.module';
+import { environment } from '../environments/environment';
 
 library.add(faPlay, faStop, faPause, faStepBackward, faStepForward, faChevronCircleRight, faChevronCircleLeft, faAngleDoubleUp, faAngleDoubleDown, faCircle, faPlus);
-enableProdMode();
+
+const googleLoginOptions: LoginOpt = {
+  scope: 'https://www.googleapis.com/auth/youtube.readonly'
+};
+
+let config = new AuthServiceConfig([
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider(environment.GOOGLE_AUTH_KEY, googleLoginOptions)
+  }
+]);
+
+export function provideConfig() {
+  return config;
+}
 
 @NgModule({
   declarations: [
@@ -44,10 +62,15 @@ enableProdMode();
     MatInputModule,
     MatButtonModule,
     ComponentsModule,
-    MatListModule
+    MatListModule,
+    SocialLoginModule
   ],
   providers: [
-    YoutubeDlService
+    YoutubeDlService,
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -9,6 +9,10 @@
   </div>
 
   <div class="body">
+    <!--
+    <button mat-raised-button (click)="signIn()">sign in with google</button>
+    <button mat-raised-button (click)="signOut()">sign out with google</button>
+    -->
     <div class="videos-list">
       <app-card class="card" *ngFor="let video of videoList" [video]="video" (onVideoClick)="onVideoClick(video)" (onPlaylistClick)="onPlaylistClick(video)"></app-card>
     </div>
