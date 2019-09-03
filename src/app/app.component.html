@@ -1,12 +1,11 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
 <div class="outer-border">
-  <div class="input-background-wrapper">
-    <div class="input-background">
-      <mat-form-field class="input">
-        <input matInput placeholder="Search" value="Video.." [ngModelOptions]="{standalone: true}" [(ngModel)]="search" (keydown)="keyDownFunction($event)">
-      </mat-form-field>
-    </div>
+  <div class="input-background">
+    <mat-form-field class="input">
+      <input matInput placeholder="Search" value="Video.." [ngModelOptions]="{standalone: true}" [(ngModel)]="search" (keydown)="keyDownFunction($event)">
+      <mat-hint>Keyword, video or playlist URL</mat-hint>
+    </mat-form-field>
   </div>
 
   <div class="body">
@@ -27,7 +26,7 @@
         <mat-list-item class="playlist-element" *ngFor="let element of playlist; index as i" (click)="onPlaylistElementClick(element)">
           {{i + 1}} - {{element.snippet.title}} &nbsp; <fa-icon *ngIf="i == currentPlayingIndex" class="currently-playing-icon" [icon]="['fas', 'circle']"></fa-icon>
         </mat-list-item>
-        <div style="position: relative; display: block; width: 100%; height: 20px;">
+        <div>
           <button *ngIf="playlist" class="playlist-load-more-button transparent-button" (click)="PlaylistLoadMore()"><fa-icon [icon]="['fas', 'plus']"></fa-icon></button>
         </div>
       </mat-list>

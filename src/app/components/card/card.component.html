@@ -8,6 +8,7 @@
             </mat-grid-tile>
             <mat-grid-tile colspan="1">
                 <img class="card-image" [src]="video.snippet.thumbnails.default.url" alt="thumbnail">
+                <div *ngIf="video.id.kind == 'youtube#playlist'" class="playlist-background"><span class="label">Playlist</span></div>
             </mat-grid-tile>
         </mat-grid-list>
     </mat-card-content>
