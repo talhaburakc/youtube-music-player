@@ -10,4 +10,5 @@ cd youtube-music-player
 npm install
 ng serve
 ```
+paste your youtube api key into */src/environments/environment.ts* and */src/environments/environment.prod.ts*<br/>
 go to localhost:4200
